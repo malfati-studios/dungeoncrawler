@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
         Destroy(_currentBattleHandler.gameObject);
         _currentBattleHandler = null;
         UIController.instance.EndBattle();
+        PlayerController.instance.ResumeMovement();
     }
     
     public void StartGame()

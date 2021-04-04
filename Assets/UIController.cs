@@ -5,6 +5,8 @@ public class UIController : MonoBehaviour
     public static UIController instance;
 
     [SerializeField] private GameObject _battlePanel;
+    [SerializeField] private GameObject _HPBar;
+    [SerializeField] private GameObject _MPBar;
     private BattleHandler _currentBattleHandler;
 
 

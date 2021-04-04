@@ -3,6 +3,8 @@
 public class PlayerStats : MonoBehaviour
 {
    public static PlayerStats instance;
+   [SerializeField] private int lvl;
+   [SerializeField] private int xpToNextLvl;
    [SerializeField] private int currentHP;
    [SerializeField] private int maxHP;
    [SerializeField] private int currentMP;
@@ -14,5 +16,10 @@ public class PlayerStats : MonoBehaviour
    private void Awake()
    {
       instance = this;
+   }
+
+   public int GetAttack()
+   {
+      return 10;
    }
 }

@@ -15,7 +15,6 @@ public class BattleHandler : MonoBehaviour
     public void AttackButtonClicked()
     {
         if (!playerTurn) return;
-
         StartCoroutine(Attack());
     }
 
@@ -23,5 +22,11 @@ public class BattleHandler : MonoBehaviour
     {
        yield return new WaitForSeconds(1);
        Debug.Log("ATTACKED! "+ _enemy.name);
+       _enemy.TakeDamage(PlayerStats.instance.GetAttack());
+       if (_enemy.Died())
+       {
+           Destroy(_enemy.gameObject);
+           GameManager.instance.EndBattle();
+       }
     }
 }

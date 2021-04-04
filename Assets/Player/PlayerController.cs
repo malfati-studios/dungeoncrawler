@@ -5,6 +5,8 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
+        public static PlayerController instance;
+
         public float playerHeight = 1.25f;
         public float transitionSpeed = 10f;
         public float transitionRotationSpeed = 2000f;
@@ -86,6 +88,7 @@ namespace Player
             transform.position = _targetGridPos.worldPosition;
             _levelManager = FindObjectOfType<LevelManager>();
             _cellSize = _levelManager.GetCellSize();
+            instance = this;
         }
 
         private void FixedUpdate()
@@ -122,6 +125,11 @@ namespace Player
             newPos.worldPosition = MapUtils.CalculateWorldPosition(newPos.x, newPos.z, _cellSize);
             newPos.worldPosition.y = playerHeight;
             return newPos;
+        }
+
+        public void ResumeMovement()
+        {
+            _inCombat = false;
         }
     }
 }
