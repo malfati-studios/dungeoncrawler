@@ -12,7 +12,8 @@ namespace Player
         private MapPosition _targetGridPos;
         private Vector3 _targetRotation;
         private LevelManager _levelManager;
-        private int cellSize;
+        private int _cellSize;
+        private bool _inCombat;
 
         public void RotateLeft()
         {
@@ -61,13 +62,20 @@ namespace Player
                       desiredPosition.worldPosition);
 
             if (!_levelManager.IsValidPosition(desiredPosition)) return;
-            if (_levelManager.IsThereInteractive(desiredPosition)) return;
+            if (_levelManager.IsThereEnemy(desiredPosition))
+            {
+                //This in case of a prompt asking if you want to battle
+                _inCombat = true;
+                _levelManager.EngageInCombat(desiredPosition);
+                return;
+            }
             
             _targetGridPos = desiredPosition;
         }
 
         private bool AtRest()
         {
+            if (_inCombat) return false;
             return Vector3.Distance(transform.position, _targetGridPos.worldPosition) < .05f &&
                    Vector3.Distance(transform.eulerAngles, _targetRotation) < .05f;
         }
@@ -77,7 +85,7 @@ namespace Player
             _targetGridPos = WorldGrid.instance.GetStartingPosition();
             transform.position = _targetGridPos.worldPosition;
             _levelManager = FindObjectOfType<LevelManager>();
-            cellSize = _levelManager.GetCellSize();
+            _cellSize = _levelManager.GetCellSize();
         }
 
         private void FixedUpdate()
@@ -111,7 +119,7 @@ namespace Player
             newPos.x += _targetGridPos.x + (int) direction.x;
             newPos.z += _targetGridPos.z + (int) direction.z;
 
-            newPos.worldPosition = MapUtils.CalculateWorldPosition(newPos.x, newPos.z, cellSize);
+            newPos.worldPosition = MapUtils.CalculateWorldPosition(newPos.x, newPos.z, _cellSize);
             newPos.worldPosition.y = playerHeight;
             return newPos;
         }
