@@ -22,4 +22,9 @@ public class PlayerStats : MonoBehaviour
    {
       return 10;
    }
+
+   public void TakeDamage(int attack)
+   {
+      currentHP -= attack;
+   }
 }
